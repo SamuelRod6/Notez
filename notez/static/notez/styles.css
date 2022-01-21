@@ -1,0 +1,17 @@
+textarea {
+    resize: none;
+}
+
+#footer {
+    position: fixed;
+    width: 100vw;
+    bottom: 0;
+}
+
+.card.border-dark {
+    width: 360px;
+}
+
+.delete-button {
+    display: inline-block;
+}

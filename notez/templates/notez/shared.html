@@ -1,0 +1,31 @@
+{% extends 'notez/layout.html' %}
+
+{% block  title %} Shared with {{ user }} {% endblock title %}
+
+{% block body %}
+  <!-- Page id -->
+  <meta id='page' name='shared'>
+  
+  <!-- Notes -->
+  <h3 class='text-center p-3'>Shared notes</h3>
+  <div class='d-flex justify-content-around flex-wrap p-2'>
+    {% for note in notes %}
+      <div class='p-2'>
+        <div class="card border-dark" name='card'>
+          <div class="card-header">Created by {{note.creator}}</div>
+          <div class="card-body" id="note-{{note.id}}">
+            <h5 class="card-title" name='title'>{{note.title}}</h5>
+            <p class="card-text pt-3 pb-3" name='content'>{{note.content}}</p>
+            <div class="form-group" name="edit-title-window"></div>
+            <div class="form-group" name="edit-content-window"></div>
+            <div class="form-group" name="edit-buttons-window"></div>
+            <div class='mb-2' name='shares'></div>
+            <button class='btn btn-sm btn-outline-secondary mb-2' name='edit-button' onclick="editNote({{note.id}})">Edit</button>
+            <div class="card-footer text-muted"> Last updated on {{ note.updated }}</div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+
+{% endblock body %}

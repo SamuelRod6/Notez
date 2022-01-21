@@ -1,0 +1,55 @@
+{% extends 'notez/layout.html' %}
+
+{% block  title %} {{ user }} Notez {% endblock title %}
+
+{% block body %}
+  <!-- Page id -->
+  <meta id='page' name='index'>
+
+  <!-- New Note -->
+  <div class="container">
+    <h3>New Note</h3>
+    {% if message %}
+    <div class='text-end'>{{ message }}</div>
+    {% endif %}
+    <form class="form-group" action="{% url 'index' %}" method="post">
+      {% csrf_token %}
+      <div class="form-group row">
+        <label class="col col-form-label text-center">Share with:</label>
+        <div class="col-sm-10">
+          <input class="form-control border-dark mb-1" name='shared' placeholder='Input comma separated usernames (optional)' autocomplete='off'>
+        </div>
+      </div>
+      <input class="form-control border-dark mb-1" name='title' placeholder="Title" autocomplete='off' required>
+      <textarea class="form-control border-dark mb-1" name='content' rows='5' placeholder="Write whatever you like" autocomplete='off' required></textarea>
+      <input class="btn btn-danger content-align-right" type="submit" value="Add">
+        </form>
+      </div>
+    <br>
+
+  <!-- Notes -->
+  <div class='d-flex justify-content-around flex-wrap p-2'>
+    {% for note in notes %}
+      <div class='p-2'>
+        <div class="card border-dark" name='card'>
+          <div class="card-body" id="note-{{note.id}}">
+            <h5 class="card-title" name='title'>{{note.title}}</h5>
+            <p class="card-text pb-3 pt-3" name='content'>{{note.content}}</p>
+            <div class="form-group" name="edit-title-window"></div>
+            <div class="form-group" name="edit-content-window"></div>
+            <div class="form-group" name="edit-shared-window"></div>
+            <div class="form-group" name="edit-buttons-window"></div>
+            <div class='mb-2' name='shares'></div>
+            <button class='btn btn-sm btn-outline-secondary mb-2' name='edit-button' onclick="editNote({{note.id}})">Edit</button>
+            <form class="delete-button" method='post' action='{% url 'delete' %}'>
+              {% csrf_token %}
+              <button class='btn btn-sm btn-outline-danger mb-2' type='submit' name='delete_note' value='{{ note.id }}'>Delete</button>
+            </form>
+            <div class="card-footer text-muted"> Last updated on {{ note.updated }}</div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+
+{% endblock body %}
